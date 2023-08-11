@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:simpledialog/choiceList.dart';
 
+import 'SecondSecreen.dart';
 void main() {
   runApp(const MyApp());
 }
@@ -38,6 +39,19 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
   
+Future<void> _navigateAndDisplaySelection(BuildContext context) async {
+  String? result = await Navigator.push(
+    context,
+    MaterialPageRoute(builder: (context) => SecondScreen()),
+  );
+
+  if (result != null) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text(result)),
+    );
+  }
+}
+
   Future<void> pinkChoice() async{
     ChoiceList ?resultat=await showDialog<ChoiceList>(barrierDismissible: false,context: context, builder:(BuildContext context){
       return SimpleDialog(
@@ -92,7 +106,6 @@ class _MyHomePageState extends State<MyHomePage> {
   }
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
@@ -104,6 +117,7 @@ class _MyHomePageState extends State<MyHomePage> {
            ElevatedButton(onPressed:pinkChoice, child: Text("open Simple Dialog",style: TextStyle(color: Colors.white,fontSize: 20),),style: ElevatedButton.styleFrom(backgroundColor: Colors.teal),),
            Text("this You Choice "),
            Text("${choice}",style: TextStyle(fontSize: 25)),
+           IconButton(onPressed:()async { await _navigateAndDisplaySelection(context); } , icon: Icon(Icons.replay))
         ]),
       ),
     );
