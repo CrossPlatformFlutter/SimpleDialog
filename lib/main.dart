@@ -42,7 +42,7 @@ class _MyHomePageState extends State<MyHomePage> {
 Future<void> _navigateAndDisplaySelection(BuildContext context) async {
   String? result = await Navigator.push(
     context,
-    MaterialPageRoute(builder: (context) => SecondScreen()),
+    MaterialPageRoute(builder: (BuildContext context) => SecondScreen()),
   );
 
   if (result != null) {
