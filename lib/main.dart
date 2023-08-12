@@ -1,97 +1,51 @@
 import 'package:flutter/material.dart';
+import 'package:simpledialog/SecondSecreen.dart';
 
 void main(){
-  runApp( const HomePage());
+  runApp(
+    const HomeScreen()
+  );
 }
 
-class HomePage extends StatelessWidget{
-  const HomePage({super.key});
+class HomeScreen  extends StatelessWidget{
 
-  @override
+  const HomeScreen({super.key});
+   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: HomeApp(title:"Hello"),
+      home:SelectionButton(),
+      /*routes: <String,WidgetBuilder>{
+        "Route1":(context)=>SecondScreen(),
+      },*/
     );
   }
 }
 
-class HomeApp extends StatefulWidget{
-  const HomeApp({super.key,required this.title});
-
-  final String title;
-
-  @override
-  State<HomeApp> createState()=>_HomeApp();
+class SelectionButton extends StatefulWidget{
+  const SelectionButton({super.key});
+      @override
+  State<StatefulWidget> createState() =>_SelectionButton();
+  
 }
 
-class _HomeApp extends State<HomeApp>{
-
-   Future<void> choiceSomethin() async {
-      String ? result=await showDialog(barrierDismissible: false,context: context, builder: (context){
-            return SimpleDialog(
-              title: const Text("choice something"),
-              children: [
-                SimpleDialogOption(
-                  onPressed: (){Navigator.pop(context,"heart");},
-                  child: const Row(children: [
-                    Icon(Icons.favorite),
-                     Padding(padding: EdgeInsets.only(left: 10)),
-                    Text("Heart")
-                    ]),
-                ),
-                  SimpleDialogOption(
-                      onPressed: (){Navigator.pop(context,"Alarm");},
-                  child: const Row(children: [
-                    Icon(Icons.access_alarms),
-                     Padding(padding: EdgeInsets.only(left: 10)),
-                    Text("Alarm")
-                    ]),
-                ),
-                  SimpleDialogOption(
-                   onPressed: (){Navigator.pop(context,"home");},
-                  child:const Row(children: [
-                    Icon(Icons.home),
-                     Padding(padding: EdgeInsets.only(left: 10)),
-                    Text("home")
-                    ]),
-                )
-              ],
-            );
+class _SelectionButton extends State<SelectionButton>{
+ 
+  Future<void> Navigation(BuildContext context)async{
+    String ? result=await Navigator.push(context,MaterialPageRoute(builder: (BuildContext context)=> const SecondScreen()));
+    if(result!=null){
+      setState(() {
+         SnackBar snack=SnackBar(content: Text(result),duration: Duration(seconds: 2),);
+         ScaffoldMessenger.of(context).showSnackBar(snack);
       });
-      switch(result){
-        case 'home':
-        setState(() {
-           choice="home";
-        });
-         break;
-           case "Alarm":
-         setState(() {
-             choice="Alarm";
-         });
-       break;
-         case "heart":
-         setState(() {
-            choice="heart";
-         });
-         break;
-      }
-   }
-
-  String choice="no yet";
+    }
+  }
+     
   @override
   Widget build(BuildContext context) {
-   return Scaffold(
-    appBar: AppBar(title: Text("Hello"),),
-    body: Center(child: 
-      Column(mainAxisAlignment: MainAxisAlignment.center,children: <Widget>[
-         ElevatedButton(onPressed: choiceSomethin, child: 
-           Text("Choice Plan",style: TextStyle(fontSize:18),),style: ElevatedButton.styleFrom(backgroundColor: Colors.indigoAccent),),
-          const Padding(padding:EdgeInsets.only(bottom: 20)),
-          Text("${choice}",style: const TextStyle(fontWeight: FontWeight.bold,fontSize: 25),)
-      ],
-      ),
-      ),
-   );
+    return Scaffold(
+      appBar: AppBar(title: const Text("test"),),
+      body: Center(child: ElevatedButton(child:const Icon(Icons.send_and_archive),onPressed:()async {await Navigation(context);}),),
+    );
   }
 }
