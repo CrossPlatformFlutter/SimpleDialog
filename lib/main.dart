@@ -33,10 +33,17 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
 
   String choice="no choice yet";
+  String source="";
 
   void setChoice(String val){
     setState(() {
       choice=val;
+    });
+  }
+
+   void setSource(String val){
+    setState(() {
+      source="with ${val}";
     });
   }
   
@@ -54,6 +61,7 @@ Future<void> _navigateAndDisplaySelection(BuildContext context) async {
 }
 
   Future<void> pinkChoice() async{
+    setSource("simpleDialog");
     ChoiceList ?resultat=await showDialog<ChoiceList>(
       barrierDismissible: false,
       context: context,
@@ -80,6 +88,7 @@ Future<void> _navigateAndDisplaySelection(BuildContext context) async {
   }
 
   Future<void> pinkChoiceBottomSheet()async{
+    setSource("BottomSheet");
     ChoiceList ? result=await showModalBottomSheet(
       isDismissible: false,
       context: context, 
@@ -126,6 +135,7 @@ Future<void> _navigateAndDisplaySelection(BuildContext context) async {
             style: ElevatedButton.styleFrom(backgroundColor: Colors.teal),),
            const Text("this You Choice "),
            Text("${choice}",style: const TextStyle(fontSize: 25)),
+           Text(source,style: TextStyle(fontWeight: FontWeight.bold),),
            IconButton(onPressed:()async { await _navigateAndDisplaySelection(context); } ,
             icon: Icon(Icons.replay))
         ]),
