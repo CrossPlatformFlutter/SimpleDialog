@@ -31,12 +31,12 @@ class SelectionButton extends StatefulWidget{
 
 class _SelectionButton extends State<SelectionButton>{
  
-  Future<void> Navigation(BuildContext context)async{
+  Future<void> navigation()async{
     String ? result=await Navigator.push(context,MaterialPageRoute(builder: (BuildContext context)=> const SecondScreen()));
     if(result!=null){
       setState(() {
-         SnackBar snack=SnackBar(content: Text(result),duration: Duration(seconds: 2),);
-         ScaffoldMessenger.of(context).showSnackBar(snack);
+         //SnackBar snack=SnackBar(content: Text(result),duration: Duration(seconds: 2),);
+         ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(result)));
       });
     }
   }
@@ -45,7 +45,7 @@ class _SelectionButton extends State<SelectionButton>{
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text("test"),),
-      body: Center(child: ElevatedButton(child:const Icon(Icons.send_and_archive),onPressed:()async {await Navigation(context);}),),
+      body: Center(child: ElevatedButton(onPressed: navigation,child:const Icon(Icons.send_and_archive))),
     );
   }
 }
